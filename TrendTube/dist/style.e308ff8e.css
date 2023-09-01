@@ -237,6 +237,12 @@ nav {
   max-width: 100%;
 }
 
+.right-event a {
+  text-decoration: none;
+  font-size: 16px;
+  color: var(--text-color);
+}
+
 /* Adjust font size of the paragraph */
 .subcription p {
   font-size: 12px;

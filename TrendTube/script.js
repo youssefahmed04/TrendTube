@@ -15,8 +15,9 @@ const body = document.body;
 const accessHeaderData = function (channelData) {
   const snippet = channelData.items[0].snippet;
   const profilePic = snippet.thumbnails.high.url;
+  const channelTag = snippet.customUrl;
   const name = snippet.title;
-  return { profilePic, name };
+  return { profilePic, channelTag, name };
 };
 
 const getChannelData = async function (channelId) {
@@ -224,7 +225,7 @@ const renderSubscriptions = function (subData) {
       />
     </div>
     <div class="right-event">
-      <h3>${subData.name}</h3>
+      <a href="https://www.youtube.com/${subData.channelTag}">${subData.name}</a>
       <button class="sub-btn"> Subscribe</button>
     </div>
   </div>

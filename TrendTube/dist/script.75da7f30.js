@@ -902,9 +902,11 @@ var body = document.body;
 var accessHeaderData = function accessHeaderData(channelData) {
   var snippet = channelData.items[0].snippet;
   var profilePic = snippet.thumbnails.high.url;
+  var channelTag = snippet.customUrl;
   var name = snippet.title;
   return {
     profilePic: profilePic,
+    channelTag: channelTag,
     name: name
   };
 };
@@ -1101,7 +1103,7 @@ document.addEventListener("DOMContentLoaded", function () {
   initializeLikeButtons();
 });
 var renderSubscriptions = function renderSubscriptions(subData) {
-  var markup = "\n  <div class=\"subcription\">\n    <div class=\"left-event\">\n      <img\n        src=\"".concat(subData.profilePic, "\"\n      />\n    </div>\n    <div class=\"right-event\">\n      <h3>").concat(subData.name, "</h3>\n      <button class=\"sub-btn\"> Subscribe</button>\n    </div>\n  </div>\n  ");
+  var markup = "\n  <div class=\"subcription\">\n    <div class=\"left-event\">\n      <img\n        src=\"".concat(subData.profilePic, "\"\n      />\n    </div>\n    <div class=\"right-event\">\n      <a href=\"https://www.youtube.com/").concat(subData.channelTag, "\">").concat(subData.name, "</a>\n      <button class=\"sub-btn\"> Subscribe</button>\n    </div>\n  </div>\n  ");
   return markup;
 };
 var initializeButtonState = function initializeButtonState(subBtn, index) {
@@ -1278,7 +1280,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59801" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62214" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
