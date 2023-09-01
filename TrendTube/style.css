@@ -1,0 +1,637 @@
+/* Add these properties to all elements */
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "poppins", sans-serif;
+  box-sizing: border-box;
+}
+
+/* Create variables to use throughout the css file */
+:root {
+  --body-color: #efefef;
+  --nav-color: #f96167;
+  --bg-color: #fff;
+  --text-color: #626262;
+  --dark-btn-color: #ccc;
+  --toggle-circle-color: #fff;
+}
+
+.dark-theme {
+  --body-color: #0a0a0a;
+  --nav-color: #000;
+  --bg-color: #000;
+  --text-color: #fff;
+  --dark-btn-color: #fff;
+  --toggle-circle-color: #ccc;
+}
+
+/* Add background color to the body */
+body {
+  background: var(--body-color);
+  transition: background 0.3s;
+}
+
+/* Change the display of the nav bar */
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--nav-color);
+  padding: 5px 5%;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+/* Move the logo to the left side of the nav bar */
+.logo {
+  width: 160px;
+  margin-right: 45px;
+}
+
+.nav-left,
+.nav-right {
+  display: flex;
+  align-items: center;
+}
+
+/* Horizontally align the icons in the nav bar */
+.nav-left ul li {
+  list-style: none;
+  display: inline-block;
+}
+
+/* Set size of icons */
+.nav-left ul li img {
+  width: 28px;
+  margin: 0 15px;
+}
+
+/* Adjust shape and size of profile pic */
+.nav-user-icon img {
+  width: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+/* Create space between search bar and profile pic */
+.nav-user-icon {
+  margin-left: 30px;
+}
+
+/* Adjust the shape, size, and location of the search bar */
+.search-bar {
+  background: #efefef;
+  width: 350px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  padding: 0 15px;
+}
+
+.search-bar img {
+  width: 18px;
+}
+
+/* Adjust the input box inside of the search bar */
+.search-bar input {
+  width: 100%;
+  background: transparent;
+  padding: 10px;
+  outline: none;
+  border: 0;
+}
+
+.online {
+  position: relative;
+}
+
+/* Adjust the size, shape, and position of the online symbol */
+.online::after {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: #41db51;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  padding: 13px 5%;
+}
+
+/* Set the left and right sidebar to sticky because it will not move when scrolling */
+.left-sidebar,
+.right-sidebar {
+  flex-basis: 25%;
+  position: sticky;
+  top: 70px;
+  align-self: flex-start;
+}
+
+.main-content {
+  flex-basis: 47%;
+}
+
+/* Adjust style and size of links in left sidebar */
+.imp-links a,
+.shortcut-links a {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+  color: var(--text-color);
+  width: fit-content;
+}
+
+/* Adjust icons of links size */
+.imp-links i {
+  color: #f96167;
+  font-size: 28px;
+  margin-right: 15px;
+}
+
+/* last-child will select the last element with the anchor tag */
+.imp-links a:last-child {
+  color: #f96167;
+}
+
+/* Add a horizontal line at the bottom of the left sidebar */
+.imp-links {
+  border-bottom: 1px solid #ccc;
+}
+
+/* Adjust the size and shape of the shortcut links */
+.shortcut-links a i {
+  width: 40px;
+  font-size: 28px;
+  color: #f96167;
+  border-radius: 4px;
+  margin-right: 15px;
+}
+
+/* Adjust the text style of the shorcuts paragraph */
+.shortcut-links p {
+  font-size: 20px;
+  margin: 25px 0;
+  color: var(--text-color);
+  font-weight: 600;
+}
+
+/* Adjust the placement of the right sidebar items */
+.sidebar-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+/* Adjust font style of the header in the right sidebar */
+.right-sidebar h4 {
+  font-weight: 600;
+  font-size: 20px;
+}
+
+/* Adjust the font style of the link in the right sidebar */
+.sidebar-title a {
+  text-decoration: none;
+  color: #f96167;
+  font-size: 12px;
+}
+
+/* Adjust color and background of right sidebar */
+.right-sidebar {
+  background: var(--bg-color);
+  padding: 20px;
+  border-radius: 4px;
+  color: var(--text-color);
+}
+
+.subcription {
+  display: flex;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+/* Adjust size, template, and margins of the event/calender element */
+.left-event img {
+  border-radius: 50%;
+  height: 65px;
+  width: 65px;
+  margin-right: 15px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.right-event {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 100%;
+}
+
+/* Adjust font size of the paragraph */
+.subcription p {
+  font-size: 12px;
+}
+
+/* Adjust size of the advertisment sidebar */
+.sidebar-ads {
+  width: 100%;
+  margin-bottom: 20px;
+  border-radius: 4px;
+}
+
+/* Align the items in the conversation section of the right sidebar */
+.online-list {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+/* Adjust the size of the profile pics */
+.online-list .online img {
+  width: 40px;
+  border-radius: 50%;
+}
+
+/* Create space between the profile pics and the names  */
+.online-list .online {
+  width: 40px;
+  border-radius: 50%;
+  margin-right: 15px;
+}
+
+/* Adjust the location of the online symbol to the bottom right of the profile pic */
+.online-list .online::after {
+  top: unset;
+  bottom: 5px;
+}
+
+/* Container of the stories */
+.story-gallery {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+/* Create the style of the add story */
+.story {
+  flex-basis: 18%;
+  padding-top: 32%;
+  position: relative;
+  background-position: center;
+  background-size: cover;
+  border-radius: 10px;
+}
+
+/* Adjust the image position and size */
+.story img,
+.story1 i {
+  position: absolute;
+  width: 45px;
+  border-radius: 50%;
+  top: 10px;
+  left: 10px;
+  border: 3px solid #f96167;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 1);
+}
+
+/* Adjust the font and size of the words in the story */
+.story p {
+  position: absolute;
+  bottom: 10px;
+  width: 100%;
+  text-align: center;
+  color: #fff;
+  font-size: 14px;
+}
+
+/* Create the images for every story */
+.story1 {
+  background-image: linear-gradient(transparent, rgba(0, 0, 0, 0.5)),
+    url(https://wallpapercg.com/media/ts_2x/4584.webp);
+}
+
+/* Change the location of the add story button */
+.story.story1 i {
+  font-size: 45px;
+  color: #f96167;
+  top: unset;
+  left: 50%;
+  bottom: 40px;
+  transform: translateX(-50%);
+  border: 0;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 1);
+}
+
+/* Adjust the size of the write post container */
+.write-post-container {
+  width: 100%;
+  background: var(--bg-color);
+  border-radius: 6px;
+  padding: 20px;
+  color: var(--text-color);
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+}
+
+/* Adjust size and shape of the profile pic */
+.user-profile img {
+  width: 45px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+/* Adjust profile name font */
+.user-profile p {
+  margin-bottom: -5px;
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+/* Adjust the status font */
+.user-profile small {
+  font-size: 12px;
+}
+
+.post-input-container {
+  padding-left: 55px;
+  padding-top: 20px;
+}
+
+/* Adjust the input box size and color */
+.post-input-container textarea {
+  width: 100%;
+  border: 0;
+  outline: 0;
+  border-bottom: 1px solid #ccc;
+  background: transparent;
+  resize: none;
+}
+
+.add-post-links {
+  display: flex;
+  margin-top: 10px;
+}
+
+/* Adjust the write post container links font and color */
+.add-post-links a {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  color: var(--text-color);
+  margin-right: 20%;
+  font-size: 13px;
+}
+
+/* Adjust the size of the write post container links images */
+.add-post-links i {
+  color: #f96167;
+  font-size: 20px;
+  margin-right: 10px;
+}
+
+/* Adjust previous post size and color */
+.post-container {
+  width: 100%;
+  background: var(--bg-color);
+  border-radius: 6px;
+  padding: 20px;
+  color: var(--text-color);
+  margin: 20px 0;
+}
+
+/* Adjust data font and color */
+.user-profile span {
+  font-size: 13px;
+  color: #9a9a9a;
+}
+
+/* Adjust font size of text in written post */
+.post-text {
+  color: #9a9a9a;
+  margin: 15px 0;
+  font-size: 15px;
+}
+
+/* Bold the @s in a written post */
+.post-text span {
+  color: var(--text-color);
+  font-weight: 500;
+}
+
+/* Adjust font of hashtags */
+.post-text a {
+  color: #f96167;
+  text-decoration: none;
+}
+
+/* Adjust the size of the post video */
+.post-vid {
+  width: 100%;
+  border-radius: 4px;
+  margin-bottom: 5px;
+}
+
+/* Create space between icons */
+.post-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Adjust the size of the icon images */
+.activity-icons div i {
+  font-size: 18px;
+  margin-right: 10px;
+}
+
+.activity-icons div button {
+  width: 18px;
+  height: 18px;
+  color: var(--text-color);
+  margin-right: 10px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.like-on {
+  color: #f96167;
+}
+
+/* Adjust alignment of the icons in the write post container*/
+.activity-icons div {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 75px;
+}
+
+.post-profile-icon {
+  display: flex;
+  align-items: center;
+}
+
+/* Adjust size of profile pic in write post section */
+.post-profile-icon img {
+  width: 20px;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+/* Change color of the three dot icon */
+.post-row a {
+  color: #9a9a9a;
+}
+
+/* Adjust position and style of the load more button */
+.load-more-btn {
+  display: block;
+  margin: auto;
+  cursor: pointer;
+  padding: 5px 10px;
+  border: 1px solid #9a9a9a;
+  color: var(--text-color);
+  background: transparent;
+  border-radius: 4px;
+}
+
+/* Adjust copyright text font */
+.footer {
+  text-align: center;
+  color: #9a9a9a;
+  padding: 10px 0 20px;
+  font-size: 13px;
+}
+
+/* Adjust location and size of settings menu */
+.settings-menu {
+  position: absolute;
+  width: 90%;
+  max-width: 350px;
+  background: var(--bg-color);
+  box-shadow: 0 0 10px rgba(249, 97, 103, 0.4);
+  border-radius: 4px;
+  overflow: hidden;
+  top: 108%;
+  right: 5%;
+  max-height: 0;
+  transition: max-height 0.3s;
+}
+
+.settings-menu-height {
+  max-height: 450px;
+}
+
+/* Adjust font of links inside drop down bar */
+.user-profile a {
+  font-size: 12px;
+  color: #f96167;
+  text-decoration: none;
+}
+
+.settings-menu-inner {
+  padding: 20px;
+}
+
+/* Adjust size and color of horizontal line */
+.settings-menu hr {
+  border: 0;
+  height: 1px;
+  background: #9a9a9a;
+  margin: 15px 0;
+}
+
+.settings-links {
+  display: flex;
+  align-items: center;
+  margin: 15px 0;
+}
+
+/* Adjust size and shape of settings icons */
+.settings-links .settings-icon {
+  width: 38px;
+  margin-right: 10px;
+  border-radius: 50%;
+}
+
+/* Create space between the settings icons */
+.settings-links a {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: space-between;
+  text-decoration: none;
+  color: var(--text-color);
+}
+
+/* Adjust the shape of the background of the toggle darkmode button */
+#dark-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: var(--dark-btn-color);
+  width: 45px;
+  border-radius: 15px;
+  padding: 2px 3px;
+  cursor: pointer;
+  display: flex;
+  transition: padding-left 0.5s, background 0.5s;
+}
+
+/* Adjust the shape of the toggle circle of the toggle darkmode button */
+#dark-btn span {
+  width: 18px;
+  height: 18px;
+  background: var(--toggle-circle-color);
+  border-radius: 50%;
+  display: inline-block;
+}
+
+/* Adjust when dark button is activated */
+#dark-btn.dark-btn-on {
+  padding-left: 23px;
+}
+
+.sub-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 5px;
+  width: 80px;
+  padding: 6px 14px;
+  background-color: var(--text-color);
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.sub-btn-on {
+  background-color: #f96167;
+  width: 90px;
+  padding: 6px 16px;
+}
+
+.sub-btn-off {
+  background-color: #626262;
+  padding: 6px 14px;
+}
+
+.sidebar-title i {
+  color: #f96167;
+  font-size: 18px;
+  justify-content: center;
+  margin-left: 2px;
+}
