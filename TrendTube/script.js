@@ -242,6 +242,10 @@ const initializeButtonState = function (subBtn, index) {
     subBtn.classList.remove("sub-btn-on");
     subBtn.classList.add("sub-btn-off");
     subBtn.textContent = "Subscribe";
+  } else {
+    subBtn.classList.remove("sub-btn-off");
+    subBtn.classList.add("sub-btn-on");
+    subBtn.textContent = "Subscribed";
   }
 };
 
