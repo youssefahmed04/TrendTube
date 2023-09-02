@@ -383,6 +383,7 @@ nav {
   width: 100%;
   border: 0;
   outline: 0;
+  color: var(--text-color);
   border-bottom: 1px solid #ccc;
   background: transparent;
   resize: none;
