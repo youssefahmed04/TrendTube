@@ -14,6 +14,7 @@
   --text-color: #626262;
   --dark-btn-color: #ccc;
   --toggle-circle-color: #fff;
+  --video-title-color: #9a9a9a;
 }
 
 .dark-theme {
@@ -23,6 +24,7 @@
   --text-color: #fff;
   --dark-btn-color: #fff;
   --toggle-circle-color: #ccc;
+  --video-title-color: #fff;
 }
 
 /* Add background color to the body */
@@ -426,7 +428,7 @@ nav {
 
 /* Adjust font size of text in written post */
 .post-text {
-  color: #9a9a9a;
+  color: var(--video-title-color);
   margin: 15px 0;
   font-size: 15px;
 }
