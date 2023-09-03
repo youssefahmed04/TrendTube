@@ -12,7 +12,7 @@ A social media website that showcases trending YouTube content, where users can 
 
 ## Demo
 
-[Watch The Demo - Click Me!](Assets/TrendTube-Demo.mov)
+[Watch The Demo - Click Me!](Assets/TrendTube-Demo.mp4)
 
 Media:
 
