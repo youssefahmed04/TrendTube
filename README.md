@@ -64,11 +64,11 @@ To get started with TrendTube, follow these steps in your terminal:
    npm run start
    ```
 
-   This will launch the application on your local machine, and you can access it in your web browser at http://localhost:3000.
+   This will launch the application on your local machine, and you can access it in your web browser at http://localhost:1234.
 
 5. Explore TrendTube:
 
-   Open your web browser and go to http://localhost:3000 to access TrendTube. Start exploring and enjoying the features!
+   Open your web browser and go to http://localhost:1234 to access TrendTube. Start exploring and enjoying the features!
 
 ## Technologies Used
 
