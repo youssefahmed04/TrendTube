@@ -1,0 +1,19 @@
+{
+  "name": "trendtube",
+  "version": "1.0.0",
+  "description": "social media website",
+  "scripts": {
+    "start": "parcel index.html",
+    "profile": "parcel profile.html",
+    "build": "parcel build index.html"
+  },
+  "author": "Youssef Ahmed",
+  "license": "ISC",
+  "devDependencies": {
+    "parcel": "^2.9.3"
+  },
+  "dependencies": {
+    "core-js": "^3.32.2"
+  },
+  "browserslist": "last 2 versions, > 0.5% and ie >= 11"
+}
