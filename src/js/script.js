@@ -1,7 +1,12 @@
 "use strict";
 
 import "regenerator-runtime/runtime";
-import "core-js/actual";
+
+if (module.hot) {
+  module.hot.accept(function () {
+    location.reload();
+  });
+}
 
 const API_KEY = "AIzaSyDJvk4A_K5SVv78Rl7Qaun_qFmU0_Xjo9Q";
 
@@ -145,7 +150,7 @@ const renderVideoContent = function (videoData, headerData, index) {
   }
 };
 
-const getVideoData = async function (index) {
+export const getVideoData = async function (container, index) {
   try {
     const res = await fetch(
       `https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&regionCode=US&key=${API_KEY}`
@@ -154,7 +159,7 @@ const getVideoData = async function (index) {
     const headerData = await getChannelData(
       data.items[index].snippet.channelId
     );
-    postsContainer.insertAdjacentHTML(
+    container.insertAdjacentHTML(
       "beforeend",
       renderVideoContent(data, headerData, index)
     );
@@ -210,7 +215,7 @@ const initializeLikeButtons = function () {
 };
 
 for (let index = 0; index < 5; index++) {
-  getVideoData(index);
+  getVideoData(postsContainer, index);
 }
 
 document.addEventListener("DOMContentLoaded", function () {

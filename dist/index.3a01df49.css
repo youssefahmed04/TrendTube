@@ -662,4 +662,36 @@ nav {
   width: 20px;
 }
 
+.profile-info {
+  justify-content: space-between;
+  align-self: flex-start;
+  margin-top: 20px;
+  display: flex;
+}
+
+.info-col {
+  flex-basis: 33%;
+}
+
+.post-col {
+  flex-basis: 65%;
+}
+
+.profile-intro {
+  background: var(--bg-color);
+  border-radius: 4px;
+  margin-bottom: 20px;
+  padding: 20px;
+}
+
+.profile-intro h3 {
+  font-weight: 600;
+}
+
+.intro-text {
+  text-align: center;
+  margin: 10px 0;
+  font-size: 15px;
+}
+
 /*# sourceMappingURL=index.3a01df49.css.map */

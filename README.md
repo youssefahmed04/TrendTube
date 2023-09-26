@@ -12,13 +12,13 @@ A social media website that showcases trending YouTube content, where users can 
 
 ## Demo
 
-[Watch The Demo - Click Me!](Assets/TrendTube-Demo.mp4)
+[Watch The Demo - Click Me!](src/assets/README-imgs/TrendTube-Demo.mp4)
 
 Media:
 
-<img src="Assets/TrendTubeHomePage.png" alt="Home Page" width="430" height="236">
-<img src="Assets/TrendTubeDarkMode.png" alt="Dark Mode" width="430" height="236">
-<img src="Assets/TrendTubeSettingsMenu.png" alt="Settings Menu" width="357.5" height="465">
+<img src="src/assets/README-imgs/TrendTubeHomePage.png" alt="Home Page" width="430" height="236">
+<img src="src/assets/README-imgs/TrendTubeDarkMode.png" alt="Dark Mode" width="430" height="236">
+<img src="src/assets/README-imgs/TrendTubeSettingsMenu.png" alt="Settings Menu" width="357.5" height="465">
 
 ## Features
 
