@@ -1,4 +1,4 @@
-# TrendTube
+# Trendz
 
 A social media website that showcases trending YouTube content, where users can interact with video posts and channels. It uses the YouTube Data API v3 to retrieve and display trending videos, popular channels, and user subscriptions.
 
@@ -33,11 +33,11 @@ Media:
 
 ## Installation
 
-To get started with TrendTube, follow these steps in your terminal:
+To get started with Trendz, follow these steps in your terminal:
 
 1. **Clone the Repository:**
 
-   First, clone the TrendTube repository to your local machine using Git:
+   First, clone the Trendz repository to your local machine using Git:
 
    ```bash
    git clone https://github.com/youssefahmed04/TrendTube.git
@@ -58,7 +58,7 @@ To get started with TrendTube, follow these steps in your terminal:
 
 4. Start the Development Server:
 
-   You can now start the development server to run TrendTube locally:
+   You can now start the development server to run Trendz locally:
 
    ```bash
    npm run start
@@ -66,9 +66,9 @@ To get started with TrendTube, follow these steps in your terminal:
 
    This will launch the application on your local machine, and you can access it in your web browser at http://localhost:1234.
 
-5. Explore TrendTube:
+5. Explore Trendz:
 
-   Open your web browser and go to http://localhost:1234 to access TrendTube. Start exploring and enjoying the features!
+   Open your web browser and go to http://localhost:1234 to access Trendz. Start exploring and enjoying the features!
 
 ## Technologies Used
 
