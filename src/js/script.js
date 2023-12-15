@@ -17,6 +17,7 @@ const postsContainer = document.querySelector(".posts");
 const subContainer = document.querySelector(".subscriptions");
 const storyContainer = document.querySelector(".story-gallery");
 const body = document.body;
+const seeProfileLink = document.getElementById("see-profile");
 
 const accessHeaderData = function (channelData) {
   const snippet = channelData.items[0].snippet;
@@ -159,7 +160,7 @@ export const getVideoData = async function (container, index) {
     const headerData = await getChannelData(
       data.items[index].snippet.channelId
     );
-    container.insertAdjacentHTML(
+    container?.insertAdjacentHTML(
       "beforeend",
       renderVideoContent(data, headerData, index)
     );
@@ -240,19 +241,21 @@ const renderSubscriptions = function (subData) {
 };
 
 const initializeButtonState = function (subBtn, index) {
-  const subStatus = localStorage.getItem(`subStatus${index}`);
-  if (subStatus === "subscribed") {
-    subBtn.classList.remove("sub-btn-off");
-    subBtn.classList.add("sub-btn-on");
-    subBtn.textContent = "Subscribed";
-  } else if (subStatus === "unsubscribed") {
-    subBtn.classList.remove("sub-btn-on");
-    subBtn.classList.add("sub-btn-off");
-    subBtn.textContent = "Subscribe";
-  } else {
-    subBtn.classList.remove("sub-btn-off");
-    subBtn.classList.add("sub-btn-on");
-    subBtn.textContent = "Subscribed";
+  if (subBtn) {
+    const subStatus = localStorage.getItem(`subStatus${index}`);
+    if (subStatus === "subscribed") {
+      subBtn.classList.remove("sub-btn-off");
+      subBtn.classList.add("sub-btn-on");
+      subBtn.textContent = "Subscribed";
+    } else if (subStatus === "unsubscribed") {
+      subBtn.classList.remove("sub-btn-on");
+      subBtn.classList.add("sub-btn-off");
+      subBtn.textContent = "Subscribe";
+    } else {
+      subBtn.classList.remove("sub-btn-off");
+      subBtn.classList.add("sub-btn-on");
+      subBtn.textContent = "Subscribed";
+    }
   }
 };
 
@@ -282,12 +285,12 @@ const getSubscriptionData = async function (index) {
     const data = await res.json();
     const subData = await getChannelData(data.items[index].snippet.channelId);
 
-    subContainer.insertAdjacentHTML(
+    subContainer?.insertAdjacentHTML(
       "afterbegin",
       renderSubscriptions(subData, index)
     );
 
-    const subBtn = subContainer.querySelector(".sub-btn");
+    const subBtn = subContainer?.querySelector(".sub-btn");
     initializeButtonState(subBtn, index);
 
     if (subBtn) {
@@ -326,7 +329,7 @@ const getStoryData = async function (index) {
     const data = await res.json();
     const storyData = await getChannelData(data.items[index].snippet.channelId);
 
-    storyContainer.insertAdjacentHTML(
+    storyContainer?.insertAdjacentHTML(
       "beforeend",
       renderStories(storyData, data, index)
     );
@@ -346,6 +349,12 @@ for (let index = 0; index < 5; index++) {
 const toggleSettingsMenu = function () {
   settingsMenu.classList.toggle("settings-menu-height");
 };
+
+const goToProfile = function () {
+  window.location = "profile.html";
+};
+
+seeProfileLink?.addEventListener("click", goToProfile);
 
 userProfileIcon.addEventListener("click", toggleSettingsMenu);
 

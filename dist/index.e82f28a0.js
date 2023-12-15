@@ -590,6 +590,7 @@ const postsContainer = document.querySelector(".posts");
 const subContainer = document.querySelector(".subscriptions");
 const storyContainer = document.querySelector(".story-gallery");
 const body = document.body;
+const seeProfileLink = document.getElementById("see-profile");
 const accessHeaderData = function(channelData) {
     const snippet = channelData.items[0].snippet;
     const profilePic = snippet.thumbnails.high.url;
@@ -700,7 +701,7 @@ const getVideoData = async function(container, index) {
         const res = await fetch(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&regionCode=US&key=${API_KEY}`);
         const data = await res.json();
         const headerData = await getChannelData(data.items[index].snippet.channelId);
-        container.insertAdjacentHTML("beforeend", renderVideoContent(data, headerData, index));
+        container?.insertAdjacentHTML("beforeend", renderVideoContent(data, headerData, index));
     } catch (error) {
         console.error(error);
     }
@@ -791,8 +792,8 @@ const getSubscriptionData = async function(index) {
         const res = await fetch(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&regionCode=US&pageToken=CAUQAA&key=${API_KEY}`);
         const data = await res.json();
         const subData = await getChannelData(data.items[index].snippet.channelId);
-        subContainer.insertAdjacentHTML("afterbegin", renderSubscriptions(subData, index));
-        const subBtn = subContainer.querySelector(".sub-btn");
+        subContainer?.insertAdjacentHTML("afterbegin", renderSubscriptions(subData, index));
+        const subBtn = subContainer?.querySelector(".sub-btn");
         initializeButtonState(subBtn, index);
         if (subBtn) subBtn.addEventListener("click", function() {
             subscribe(subBtn, index);
@@ -817,7 +818,7 @@ const getStoryData = async function(index) {
         const res = await fetch(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&regionCode=US&pageToken=CAUQAA&key=${API_KEY}`);
         const data = await res.json();
         const storyData = await getChannelData(data.items[index].snippet.channelId);
-        storyContainer.insertAdjacentHTML("beforeend", renderStories(storyData, data, index));
+        storyContainer?.insertAdjacentHTML("beforeend", renderStories(storyData, data, index));
     } catch (error) {
         console.error(error);
     }
@@ -829,6 +830,10 @@ for(let index = 0; index < 5; index++){
 const toggleSettingsMenu = function() {
     settingsMenu.classList.toggle("settings-menu-height");
 };
+const goToProfile = function() {
+    window.location.href = "profile.html";
+};
+seeProfileLink?.addEventListener("click", goToProfile);
 userProfileIcon.addEventListener("click", toggleSettingsMenu);
 darkBtn.addEventListener("click", function() {
     darkBtn.classList.toggle("dark-btn-on");
