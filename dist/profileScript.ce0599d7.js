@@ -1107,7 +1107,7 @@ var initializeLikeButtons = function initializeLikeButtons() {
   };
   observePostsContainer();
 };
-for (var index = 0; index < 5; index++) {
+for (var index = 0; index < 50; index++) {
   getVideoData(postsContainer, index);
 }
 document.addEventListener("DOMContentLoaded", function () {
@@ -1313,7 +1313,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61161" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54830" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

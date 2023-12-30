@@ -12,13 +12,13 @@ A social media website that showcases trending YouTube content, where users can 
 
 ## Demo
 
-[Watch The Demo - Click Me!](src/assets/README-imgs/TrendTube-Demo.mp4)
+[Watch The Demo - Click Me!](src/assets/README-imgs/Trendz-Demo.mp4)
 
 Media:
 
-<img src="src/assets/README-imgs/TrendTubeHomePage.png" alt="Home Page" width="430" height="236">
-<img src="src/assets/README-imgs/TrendTubeDarkMode.png" alt="Dark Mode" width="430" height="236">
-<img src="src/assets/README-imgs/TrendTubeSettingsMenu.png" alt="Settings Menu" width="357.5" height="465">
+<img src="src/assets/README-imgs/TrendzHomePage.png" alt="Home Page" width="430" height="236">
+<img src="src/assets/README-imgs/TrendzDarkMode.png" alt="Dark Mode" width="430" height="236">
+<img src="src/assets/README-imgs/TrendzSettingsMenu.png" alt="Settings Menu" width="357.5" height="465">
 
 ## Features
 
@@ -40,14 +40,14 @@ To get started with Trendz, follow these steps in your terminal:
    First, clone the Trendz repository to your local machine using Git:
 
    ```bash
-   git clone https://github.com/youssefahmed04/TrendTube.git
+   git clone https://github.com/youssefahmed04/Trendz.git
 
    ```
 
 2. Navigate to the project directory
 
    ```bash
-   cd TrendTube
+   cd Trendz
    ```
 
 3. Install Dependencies:
