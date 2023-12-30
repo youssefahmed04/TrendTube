@@ -23,7 +23,7 @@ export const YoutubeModel = {
     }
   },
 
-  getVideoData: async function (pageToken = "", index) {
+  getVideoData: async function (pageToken = "") {
     try {
       const response = await fetch(
         `https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&pageToken=${pageToken}&regionCode=US&key=${API_KEY}`
@@ -101,7 +101,6 @@ export const YoutubeModel = {
   },
 
   getLikeStatus: function (videoId) {
-    // console.log(`likeStatus_${videoId}`);
     return localStorage.getItem(`likeStatus_${videoId}`) || "unlike";
   },
 };

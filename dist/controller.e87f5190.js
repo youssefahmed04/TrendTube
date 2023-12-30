@@ -128,30 +128,22 @@ exports.YoutubeView = void 0;
 var YoutubeView = exports.YoutubeView = {
   renderVideoContent: function renderVideoContent(videoData, headerData, i) {
     var _videoData$items$i, _videoData$items$i2;
-    // Assuming videoData and headerData are the data objects received from the Model
     var videoSnippet = videoData === null || videoData === void 0 || (_videoData$items$i = videoData.items[i]) === null || _videoData$items$i === void 0 ? void 0 : _videoData$items$i.snippet;
     var videoStatistics = videoData === null || videoData === void 0 || (_videoData$items$i2 = videoData.items[i]) === null || _videoData$items$i2 === void 0 ? void 0 : _videoData$items$i2.statistics;
     if (!videoSnippet || !videoStatistics) {
-      return ""; // Return empty string if data is missing
+      return;
     }
-
-    // Extracting data
     var title = videoSnippet.title,
       publishedAt = videoSnippet.publishedAt,
-      thumbnails = videoSnippet.thumbnails,
       tags = videoSnippet.tags;
     var viewCount = videoStatistics.viewCount,
       likeCount = videoStatistics.likeCount,
       commentCount = videoStatistics.commentCount;
     var videoId = videoData.items[i].id;
     var timeAgo = this.calculateTimeAgo(publishedAt);
-
-    // Construct tags
     var formattedTags = (tags || []).slice(0, 2).map(function (tag) {
       return "<a href=\"#\">#".concat(tag, "</a>");
     }).join(" ");
-
-    // Construct the HTML
     return "\n        <div class=\"post-container\">\n            <div class=\"post-row\">\n                <div class=\"user-profile\">\n                    <img src=\"".concat(headerData.profilePic, "\" alt=\"Profile Picture\" />\n                    <div>\n                        <p>").concat(headerData.name, "</p>\n                        <span>").concat(timeAgo, "</span>\n                    </div>\n                </div>\n                <a href=\"#\"><i class=\"fas fa-ellipsis-v\"></i></a>\n            </div>\n            <p class=\"post-text\">").concat(title, " ").concat(formattedTags, "</p>\n            <iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/").concat(videoId, "\" class=\"post-vid\" frameborder=\"0\" allowfullscreen></iframe>\n            <div class=\"post-row\">\n                <div class=\"activity-icons\">\n                    <div><i class=\"fa-solid fa-eye\"></i> ").concat(this.formatCount(viewCount), "</div>\n                    <div><button class=\"like-btn\"><i class=\"fa-solid fa-thumbs-up\" data-video-id=\"video").concat(i, "\"></i></button> ").concat(this.formatCount(likeCount), "</div>\n                    <div><i class=\"fa-solid fa-comments\"></i> ").concat(this.formatCount(commentCount), "</div>\n                </div>\n                <div class=\"post-profile-icon\">\n                    <img src=\"").concat(headerData.profilePic, "\" alt=\"Profile Picture\" />\n                    <i class=\"fas fa-caret-down\"></i>\n                </div>\n            </div>\n        </div>\n    ");
   },
   calculateTimeAgo: function calculateTimeAgo(publishedAt) {
@@ -192,13 +184,11 @@ var YoutubeView = exports.YoutubeView = {
   },
 
   renderSubscriptions: function renderSubscriptions(subData) {
-    // Assuming subData is an array of subscription data objects
     return subData.map(function (data) {
       return "\n          <div class=\"subcription\">\n            <div class=\"left-event\">\n              <img\n                src=\"".concat(data.profilePic, "\"\n              />\n            </div>\n            <div class=\"right-event\">\n              <a href=\"https://www.youtube.com/").concat(data.channelTag, "\">").concat(data.name, "</a>\n              <button class=\"sub-btn\"> Subscribe</button>\n            </div>\n          </div>\n        ");
     }).join("");
   },
   renderStories: function renderStories(storyData) {
-    // Assuming storyData is an array of story data objects
     return storyData.map(function (data, index) {
       if (index < 4) {
         return "\n            <div class=\"story story".concat(index + 1, "\" style=\"background-image: linear-gradient(transparent, rgba(0, 0, 0, 0.5)), url(").concat(data.profilePic, ")\">\n              <img src=\"").concat(data.profilePic, "\" />\n              <p>").concat(data.name, "</p>\n            </div>\n          ");
@@ -283,7 +273,6 @@ var YoutubeModel = exports.YoutubeModel = {
   getVideoData: function () {
     var _getVideoData = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
       var pageToken,
-        index,
         response,
         data,
         _args2 = arguments;
@@ -291,36 +280,35 @@ var YoutubeModel = exports.YoutubeModel = {
         while (1) switch (_context2.prev = _context2.next) {
           case 0:
             pageToken = _args2.length > 0 && _args2[0] !== undefined ? _args2[0] : "";
-            index = _args2.length > 1 ? _args2[1] : undefined;
-            _context2.prev = 2;
-            _context2.next = 5;
+            _context2.prev = 1;
+            _context2.next = 4;
             return fetch("https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&pageToken=".concat(pageToken, "&regionCode=US&key=").concat(API_KEY));
-          case 5:
+          case 4:
             response = _context2.sent;
-            _context2.next = 8;
+            _context2.next = 7;
             return response.json();
-          case 8:
+          case 7:
             data = _context2.sent;
             if (!response.ok) {
-              _context2.next = 13;
+              _context2.next = 12;
               break;
             }
             return _context2.abrupt("return", data);
-          case 13:
+          case 12:
             throw new Error("Error fetching video data: ".concat(data.error.message));
-          case 14:
-            _context2.next = 20;
+          case 13:
+            _context2.next = 19;
             break;
-          case 16:
-            _context2.prev = 16;
-            _context2.t0 = _context2["catch"](2);
+          case 15:
+            _context2.prev = 15;
+            _context2.t0 = _context2["catch"](1);
             console.error(_context2.t0);
             return _context2.abrupt("return", null);
-          case 20:
+          case 19:
           case "end":
             return _context2.stop();
         }
-      }, _callee2, null, [[2, 16]]);
+      }, _callee2, null, [[1, 15]]);
     }));
     function getVideoData() {
       return _getVideoData.apply(this, arguments);
@@ -431,7 +419,6 @@ var YoutubeModel = exports.YoutubeModel = {
     return newStatus;
   },
   getLikeStatus: function getLikeStatus(videoId) {
-    // console.log(`likeStatus_${videoId}`);
     return localStorage.getItem("likeStatus_".concat(videoId)) || "unlike";
   }
 };
@@ -487,57 +474,121 @@ var YoutubeController = exports.YoutubeController = {
     }
   },
   loadInitialData: function () {
-    var _loadInitialData = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-      var videoData, videoContent, i, channelData, subscriptionData, subscriptionContent, storyData, storyContent, subBtns, likeBtns;
-      return _regeneratorRuntime().wrap(function _callee$(_context) {
-        while (1) switch (_context.prev = _context.next) {
+    var _loadInitialData = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
+      var videoContent, loadVideos, subscriptionData, subscriptionContent, storyData, storyContent, subBtns, likeBtns;
+      return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+        while (1) switch (_context3.prev = _context3.next) {
           case 0:
-            _context.next = 2;
-            return _model.YoutubeModel.getVideoData("", 0);
-          case 2:
-            videoData = _context.sent;
             videoContent = "";
-            i = 0;
-          case 5:
-            if (!(i < videoData.items.length)) {
-              _context.next = 13;
-              break;
-            }
-            _context.next = 8;
-            return _model.YoutubeModel.getChannelData(videoData.items[i].snippet.channelId);
-          case 8:
-            channelData = _context.sent;
-            videoContent += _view.YoutubeView.renderVideoContent(videoData, channelData, i);
-          case 10:
-            i++;
-            _context.next = 5;
-            break;
-          case 13:
-            document.querySelector(".posts").insertAdjacentHTML("beforeend", videoContent);
+            loadVideos = /*#__PURE__*/function () {
+              var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+                var pagetoken,
+                  vidCount,
+                  videoData,
+                  i,
+                  channelData,
+                  _args = arguments;
+                return _regeneratorRuntime().wrap(function _callee$(_context) {
+                  while (1) switch (_context.prev = _context.next) {
+                    case 0:
+                      pagetoken = _args.length > 0 && _args[0] !== undefined ? _args[0] : "";
+                      vidCount = _args.length > 1 ? _args[1] : undefined;
+                      _context.prev = 2;
+                      if (!(vidCount !== 4)) {
+                        _context.next = 21;
+                        break;
+                      }
+                      _context.next = 6;
+                      return _model.YoutubeModel.getVideoData(pagetoken);
+                    case 6:
+                      videoData = _context.sent;
+                      i = 0;
+                    case 8:
+                      if (!(i < videoData.items.length)) {
+                        _context.next = 16;
+                        break;
+                      }
+                      _context.next = 11;
+                      return _model.YoutubeModel.getChannelData(videoData.items[i].snippet.channelId);
+                    case 11:
+                      channelData = _context.sent;
+                      videoContent += _view.YoutubeView.renderVideoContent(videoData, channelData, i);
+                    case 13:
+                      i++;
+                      _context.next = 8;
+                      break;
+                    case 16:
+                      _context.next = 18;
+                      return loadVideos(videoData.nextPageToken, vidCount + 1);
+                    case 18:
+                      return _context.abrupt("return", _context.sent);
+                    case 21:
+                      return _context.abrupt("return", videoContent);
+                    case 22:
+                      _context.next = 28;
+                      break;
+                    case 24:
+                      _context.prev = 24;
+                      _context.t0 = _context["catch"](2);
+                      console.error("Error loading videos:", _context.t0);
+                      return _context.abrupt("return", "");
+                    case 28:
+                    case "end":
+                      return _context.stop();
+                  }
+                }, _callee, null, [[2, 24]]);
+              }));
+              return function loadVideos() {
+                return _ref.apply(this, arguments);
+              };
+            }();
+            _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+              var videos;
+              return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+                while (1) switch (_context2.prev = _context2.next) {
+                  case 0:
+                    _context2.prev = 0;
+                    _context2.next = 3;
+                    return loadVideos("", 0);
+                  case 3:
+                    videos = _context2.sent;
+                    document.querySelector(".posts").insertAdjacentHTML("beforeend", videos);
+                    _context2.next = 10;
+                    break;
+                  case 7:
+                    _context2.prev = 7;
+                    _context2.t0 = _context2["catch"](0);
+                    console.error("Error inserting video content:", _context2.t0);
+                  case 10:
+                  case "end":
+                    return _context2.stop();
+                }
+              }, _callee2, null, [[0, 7]]);
+            }))();
 
             // Load subscription data
-            _context.t0 = Promise;
-            _context.next = 17;
+            _context3.t0 = Promise;
+            _context3.next = 6;
             return _model.YoutubeModel.getSubscriptionData();
-          case 17:
-            _context.t1 = _context.sent;
-            _context.next = 20;
-            return _context.t0.all.call(_context.t0, _context.t1);
-          case 20:
-            subscriptionData = _context.sent;
+          case 6:
+            _context3.t1 = _context3.sent;
+            _context3.next = 9;
+            return _context3.t0.all.call(_context3.t0, _context3.t1);
+          case 9:
+            subscriptionData = _context3.sent;
             subscriptionContent = _view.YoutubeView.renderSubscriptions(subscriptionData);
             document.querySelector(".subscriptions").insertAdjacentHTML("beforeend", subscriptionContent);
 
             // Load story data
-            _context.t2 = Promise;
-            _context.next = 26;
+            _context3.t2 = Promise;
+            _context3.next = 15;
             return _model.YoutubeModel.getStoryData();
-          case 26:
-            _context.t3 = _context.sent;
-            _context.next = 29;
-            return _context.t2.all.call(_context.t2, _context.t3);
-          case 29:
-            storyData = _context.sent;
+          case 15:
+            _context3.t3 = _context3.sent;
+            _context3.next = 18;
+            return _context3.t2.all.call(_context3.t2, _context3.t3);
+          case 18:
+            storyData = _context3.sent;
             storyContent = _view.YoutubeView.renderStories(storyData);
             document.querySelector(".story-gallery").insertAdjacentHTML("beforeend", storyContent);
 
@@ -554,11 +605,11 @@ var YoutubeController = exports.YoutubeController = {
               var isLiked = _model.YoutubeModel.getLikeStatus("video".concat(videoId)) === "like";
               _view.YoutubeView.updateUIForLikeButton(likeBtn.querySelector(".fa-thumbs-up"), isLiked);
             });
-          case 36:
+          case 25:
           case "end":
-            return _context.stop();
+            return _context3.stop();
         }
-      }, _callee);
+      }, _callee3);
     }));
     function loadInitialData() {
       return _loadInitialData.apply(this, arguments);
@@ -620,7 +671,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57580" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54864" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

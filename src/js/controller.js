@@ -47,19 +47,41 @@ export const YoutubeController = {
   },
 
   loadInitialData: async function () {
-    // Load video data
-    const videoData = await YoutubeModel.getVideoData("", 0);
     let videoContent = "";
 
-    for (let i = 0; i < videoData.items.length; i++) {
-      const channelData = await YoutubeModel.getChannelData(
-        videoData.items[i].snippet.channelId
-      );
-      videoContent += YoutubeView.renderVideoContent(videoData, channelData, i);
-    }
-    document
-      .querySelector(".posts")
-      .insertAdjacentHTML("beforeend", videoContent);
+    const loadVideos = async function (pagetoken = "", vidCount) {
+      try {
+        if (vidCount !== 4) {
+          const videoData = await YoutubeModel.getVideoData(pagetoken);
+          for (let i = 0; i < videoData.items.length; i++) {
+            const channelData = await YoutubeModel.getChannelData(
+              videoData.items[i].snippet.channelId
+            );
+            videoContent += YoutubeView.renderVideoContent(
+              videoData,
+              channelData,
+              i
+            );
+          }
+          return await loadVideos(videoData.nextPageToken, vidCount + 1);
+        } else {
+          return videoContent;
+        }
+      } catch (error) {
+        console.error("Error loading videos:", error);
+        return "";
+      }
+    };
+    (async () => {
+      try {
+        const videos = await loadVideos("", 0);
+        document
+          .querySelector(".posts")
+          .insertAdjacentHTML("beforeend", videos);
+      } catch (error) {
+        console.error("Error inserting video content:", error);
+      }
+    })();
 
     // Load subscription data
     const subscriptionData = await Promise.all(

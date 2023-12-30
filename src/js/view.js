@@ -1,27 +1,23 @@
 // View
 export const YoutubeView = {
   renderVideoContent: function (videoData, headerData, i) {
-    // Assuming videoData and headerData are the data objects received from the Model
     const videoSnippet = videoData?.items[i]?.snippet;
     const videoStatistics = videoData?.items[i]?.statistics;
 
     if (!videoSnippet || !videoStatistics) {
-      return ""; // Return empty string if data is missing
+      return;
     }
 
-    // Extracting data
-    const { title, publishedAt, thumbnails, tags } = videoSnippet;
+    const { title, publishedAt, tags } = videoSnippet;
     const { viewCount, likeCount, commentCount } = videoStatistics;
     const videoId = videoData.items[i].id;
     const timeAgo = this.calculateTimeAgo(publishedAt);
 
-    // Construct tags
     const formattedTags = (tags || [])
       .slice(0, 2)
       .map((tag) => `<a href="#">#${tag}</a>`)
       .join(" ");
 
-    // Construct the HTML
     return `
         <div class="post-container">
             <div class="post-row">
@@ -98,7 +94,6 @@ export const YoutubeView = {
   },
 
   renderSubscriptions: function (subData) {
-    // Assuming subData is an array of subscription data objects
     return subData
       .map(
         (data) =>
@@ -120,7 +115,6 @@ export const YoutubeView = {
   },
 
   renderStories: function (storyData) {
-    // Assuming storyData is an array of story data objects
     return storyData
       .map((data, index) => {
         if (index < 4) {
