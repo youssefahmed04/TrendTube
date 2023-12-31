@@ -838,13 +838,11 @@ nav {
 }
 
 .btn--inline {
-  color: var(--color-primary); /* Replace with actual color value */
+  color: var(--bg-color);
   font-size: 1.3rem;
   font-weight: 600;
   border: none;
-  background-color: var(
-    --color-grey-light-1
-  ); /* Replace with actual color value */
+  background-color: #f96167;
   padding: 0.8rem 1.2rem;
   border-radius: 10rem;
   cursor: pointer;
@@ -866,10 +864,8 @@ nav {
 }
 
 .btn--inline:hover {
-  color: var(--color-grad-2); /* Replace with actual color value */
-  background-color: var(
-    --color-grey-light-2
-  ); /* Replace with actual color value */
+  color: var(--bg-color);
+  background-color: var(--video-title-color);
 }
 
 .btn--inline:focus {
