@@ -20,8 +20,11 @@
     "util": "^0.12.5"
   },
   "dependencies": {
+    "assets": "^3.0.1",
     "core-js": "^3.32.2",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "imgs": "^0.0.1",
+    "src": "^1.1.2"
   },
   "browserslist": "last 2 versions, > 0.5% and ie >= 11"
 }

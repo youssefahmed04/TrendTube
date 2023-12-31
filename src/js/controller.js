@@ -3,13 +3,13 @@ import { YoutubeModel } from "./model";
 
 // Controller
 export const YoutubeController = {
-  init: function () {
+  init() {
     this.bindEventListeners();
     this.loadInitialData();
     this.checkDarkModeSetting();
   },
 
-  bindEventListeners: function () {
+  bindEventListeners() {
     const darkBtn = document.getElementById("dark-btn");
     darkBtn?.addEventListener("click", this.handleDarkModeToggle);
 
@@ -32,7 +32,7 @@ export const YoutubeController = {
       subContainer.addEventListener("click", handleSubClick.bind(this));
     }
 
-    const postContainer = document.querySelector(".posts");
+    const postContainer = document.querySelector(".main-content");
     function handlePostClick(event) {
       const likeBtn = event.target.closest(".like-btn");
       if (likeBtn) {
@@ -46,42 +46,8 @@ export const YoutubeController = {
     }
   },
 
-  loadInitialData: async function () {
+  async loadInitialData() {
     let videoContent = "";
-
-    const loadVideos = async function (pagetoken = "", vidCount) {
-      try {
-        if (vidCount !== 4) {
-          const videoData = await YoutubeModel.getVideoData(pagetoken);
-          for (let i = 0; i < videoData.items.length; i++) {
-            const channelData = await YoutubeModel.getChannelData(
-              videoData.items[i].snippet.channelId
-            );
-            videoContent += YoutubeView.renderVideoContent(
-              videoData,
-              channelData,
-              i
-            );
-          }
-          return await loadVideos(videoData.nextPageToken, vidCount + 1);
-        } else {
-          return videoContent;
-        }
-      } catch (error) {
-        console.error("Error loading videos:", error);
-        return "";
-      }
-    };
-    (async () => {
-      try {
-        const videos = await loadVideos("", 0);
-        document
-          .querySelector(".posts")
-          .insertAdjacentHTML("beforeend", videos);
-      } catch (error) {
-        console.error("Error inserting video content:", error);
-      }
-    })();
 
     // Load subscription data
     const subscriptionData = await Promise.all(
@@ -116,38 +82,80 @@ export const YoutubeController = {
         isLiked
       );
     });
+
+    this.initPagination();
   },
 
-  handleDarkModeToggle: function () {
+  handleDarkModeToggle() {
     const isDarkMode = document.body.classList.contains("dark-theme");
     YoutubeView.updateUIForDarkMode(!isDarkMode);
     localStorage.setItem("theme", isDarkMode ? "light" : "dark");
   },
 
-  checkDarkModeSetting: function () {
+  checkDarkModeSetting() {
     const isDarkMode = localStorage.getItem("theme") === "dark";
     YoutubeView.updateUIForDarkMode(isDarkMode);
   },
 
-  toggleSettingsMenu: function () {
+  toggleSettingsMenu() {
     const settingsMenu = document.querySelector(".settings-menu");
     settingsMenu.classList.toggle("settings-menu-height");
   },
 
-  goToProfile: function () {
+  goToProfile() {
     window.location = "profile.html";
   },
 
-  toggleSub: function (subBtn, index) {
+  toggleSub(subBtn, index) {
     const newStatus = YoutubeModel.toggleSubStatus(index);
     const isSubscribed = newStatus === "subscribed";
     YoutubeView.updateUIForSubButton(subBtn, isSubscribed);
   },
 
-  toggleLike: function (likeBtn, videoId) {
+  toggleLike(likeBtn, videoId) {
     const newStatus = YoutubeModel.toggleLikeStatus(videoId);
     const isLike = newStatus === "like";
     YoutubeView.updateUIForLikeButton(likeBtn, isLike);
+  },
+
+  initPagination() {
+    this.setupPaginationClickHandler();
+    this.loadCurrentPageData();
+    YoutubeView.renderPagination();
+  },
+
+  setupPaginationClickHandler() {
+    YoutubeView.addHandlerClick((pageNumber) => {
+      YoutubeModel.setCurrentPage(pageNumber);
+      this.loadCurrentPageData();
+      YoutubeView.renderPagination();
+    });
+  },
+
+  async loadCurrentPageData() {
+    try {
+      const pageData = await YoutubeModel.getPageData();
+      this.renderPageData(pageData);
+    } catch (error) {
+      console.error("Error loading page data:", error);
+    }
+  },
+
+  async renderPageData(pageData) {
+    const postsContainer = document.querySelector(".posts");
+    postsContainer.innerHTML = "";
+
+    for (const videoData of pageData) {
+      try {
+        const channelData = await YoutubeModel.getChannelData(
+          videoData.snippet.channelId
+        );
+        const videoContent = YoutubeView.renderVideo(videoData, channelData);
+        postsContainer.insertAdjacentHTML("beforeend", videoContent);
+      } catch (error) {
+        console.error("Error rendering video data:", error);
+      }
+    }
   },
 };
 

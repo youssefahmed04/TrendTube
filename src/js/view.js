@@ -1,16 +1,19 @@
+import icons from "../assets/imgs/icons.svg";
+import { YoutubeModel } from "./model";
+
 // View
 export const YoutubeView = {
-  renderVideoContent: function (videoData, headerData, i) {
-    const videoSnippet = videoData?.items[i]?.snippet;
-    const videoStatistics = videoData?.items[i]?.statistics;
+  renderVideo(videoData, headerData, i) {
+    const videoSnippet = videoData?.snippet;
+    const videoStatistics = videoData?.statistics;
 
     if (!videoSnippet || !videoStatistics) {
       return;
     }
-
+    4;
     const { title, publishedAt, tags } = videoSnippet;
     const { viewCount, likeCount, commentCount } = videoStatistics;
-    const videoId = videoData.items[i].id;
+    const videoId = videoData.id;
     const timeAgo = this.calculateTimeAgo(publishedAt);
 
     const formattedTags = (tags || [])
@@ -53,7 +56,7 @@ export const YoutubeView = {
     `;
   },
 
-  calculateTimeAgo: function (publishedAt) {
+  calculateTimeAgo(publishedAt) {
     const currentTime = new Date();
     const timePosted = new Date(publishedAt);
     const timeDifference = currentTime.getTime() - timePosted.getTime();
@@ -83,7 +86,7 @@ export const YoutubeView = {
     }
   },
 
-  formatCount: function (count) {
+  formatCount(count) {
     if (count < 1000) {
       return count; // return the original number if less than 1000
     } else if (count < 1000000) {
@@ -93,7 +96,7 @@ export const YoutubeView = {
     }
   },
 
-  renderSubscriptions: function (subData) {
+  renderSubscriptions(subData) {
     return subData
       .map(
         (data) =>
@@ -114,7 +117,7 @@ export const YoutubeView = {
       .join("");
   },
 
-  renderStories: function (storyData) {
+  renderStories(storyData) {
     return storyData
       .map((data, index) => {
         if (index < 4) {
@@ -135,19 +138,85 @@ export const YoutubeView = {
       .join("");
   },
 
-  updateUIForDarkMode: function (isDarkMode) {
+  updateUIForDarkMode(isDarkMode) {
     const body = document.body;
     const darkBtn = document.getElementById("dark-btn");
     body.classList.toggle("dark-theme", isDarkMode);
     darkBtn?.classList.toggle("dark-btn-on", isDarkMode);
   },
 
-  updateUIForSubButton: function (button, isSubscribed) {
+  updateUIForSubButton(button, isSubscribed) {
     button.textContent = isSubscribed ? "Subscribed" : "Subscribe";
     button.classList.toggle("sub-btn-on", isSubscribed);
   },
 
-  updateUIForLikeButton: function (button, isLiked) {
+  updateUIForLikeButton(button, isLiked) {
     button.classList.toggle("like-on", isLiked);
+  },
+
+  _parentElement: document.querySelector(".pagination"),
+
+  addHandlerClick(handler) {
+    this._parentElement.addEventListener("click", function (e) {
+      const btn = e.target.closest(".btn--inline");
+      if (!btn) return;
+
+      const goToPage = +btn.dataset.goto;
+
+      handler(goToPage);
+    });
+  },
+
+  renderPagination() {
+    const markup = this._generateMarkup();
+    this._parentElement.innerHTML = markup;
+  },
+
+  _generateMarkup() {
+    const currPage = YoutubeModel.pagination.currentPage;
+
+    const numPages = Math.ceil(
+      YoutubeModel.pagination.totalResults /
+        YoutubeModel.pagination.resultsPerPage
+    );
+
+    const markupPrevBtn = `
+          <button data-goto="${
+            currPage - 1
+          }" class="btn--inline pagination__btn--prev">
+                <svg class="search__icon">
+                  <use href="${icons}#icon-arrow-left"></use>
+                </svg>
+                <span>Page ${currPage - 1}</span>
+              </button>
+          `;
+
+    const markupFwrdBtn = `<button data-goto="${
+      currPage + 1
+    }" class="btn--inline pagination__btn--next">
+                  <span>Page ${currPage + 1}</span>
+                  <svg class="search__icon">
+                    <use href="${icons}#icon-arrow-right"></use>
+                  </svg>
+                </button>
+          `;
+
+    // Page 1, and there are other pages
+    if (currPage === 1 && numPages > 1) {
+      return markupFwrdBtn;
+    }
+
+    //Last page
+    if (currPage === numPages && numPages > 1) {
+      return markupPrevBtn;
+    }
+
+    //Other page
+    if (currPage < numPages) {
+      return markupPrevBtn + markupFwrdBtn;
+    }
+
+    // Page 1, and there are no other pages
+    return "";
   },
 };

@@ -129,52 +129,55 @@
       <!------------------ main content ------------------>
 
       <div class="main-content">
-        <div class="posts">
-          <!-- Creating the stories -->
-          <div class="story-gallery">
-            <div class="story story0">
-              <i class="fa-solid fa-circle-plus"></i>
-              <p>Post Story</p>
+        <!-- Creating the stories -->
+        <div class="story-gallery">
+          <div class="story story0">
+            <i class="fa-solid fa-circle-plus"></i>
+            <p>Post Story</p>
+          </div>
+        </div>
+
+        <!-- Create the 'write a post' feature  -->
+        <div class="write-post-container">
+          <div class="user-profile">
+            <img
+              src="https://yt3.ggpht.com/yti/AOXPAcWODTAzDO8acHR5anE77yyjaEuiWqAQ_casQ_Kpcg=s88-c-k-c0x00ffffff-no-rj"
+            />
+            <div>
+              <!-- Add the name, status, and icon from fontawesome -->
+              <p>Youssef Ahmed</p>
+              <small>Public <i class="fas fa-caret-down"></i></small>
             </div>
           </div>
 
-          <!-- Create the 'write a post' feature  -->
-          <div class="write-post-container">
-            <div class="user-profile">
-              <img
-                src="https://yt3.ggpht.com/yti/AOXPAcWODTAzDO8acHR5anE77yyjaEuiWqAQ_casQ_Kpcg=s88-c-k-c0x00ffffff-no-rj"
-              />
-              <div>
-                <!-- Add the name, status, and icon from fontawesome -->
-                <p>Youssef Ahmed</p>
-                <small>Public <i class="fas fa-caret-down"></i></small>
-              </div>
-            </div>
-
-            <!-- Create the input box for the write post container -->
-            <div class="post-input-container">
-              <textarea
-                rows="3"
-                placeholder="What's on your mind, Youssef?"
-              ></textarea>
-              <!-- Create the links in the write post container -->
-              <div class="add-post-links">
-                <a href="#livevideo"
-                  ><i class="fa-solid fa-video"></i> Live Video</a
-                >
-                <a href="#photovideo"
-                  ><i class="fa-solid fa-camera"></i> Photo/Video</a
-                >
-                <a href="#poll"
-                  ><i class="fa-solid fa-square-poll-vertical"></i> Poll</a
-                >
-              </div>
+          <!-- Create the input box for the write post container -->
+          <div class="post-input-container">
+            <textarea
+              rows="3"
+              placeholder="What's on your mind, Youssef?"
+            ></textarea>
+            <!-- Create the links in the write post container -->
+            <div class="add-post-links">
+              <a href="#livevideo"
+                ><i class="fa-solid fa-video"></i> Live Video</a
+              >
+              <a href="#photovideo"
+                ><i class="fa-solid fa-camera"></i> Photo/Video</a
+              >
+              <a href="#poll"
+                ><i class="fa-solid fa-square-poll-vertical"></i> Poll</a
+              >
             </div>
           </div>
         </div>
 
+        <div class="posts"></div>
+
         <!-- Create a pagination under all the posts -->
-        <div class="pagination"></div>
+        <div class="pagination">
+          <button id="prevPage">Previous</button>
+          <button id="nextPage">Next</button>
+        </div>
       </div>
       <!------------------ right sidebar ------------------>
       <div class="right-sidebar">
