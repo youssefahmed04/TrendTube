@@ -96,7 +96,7 @@ export const YoutubeView = {
     }
   },
 
-  renderSubscriptions(subData) {
+  renderSubs(subData) {
     return subData
       .map(
         (data) =>

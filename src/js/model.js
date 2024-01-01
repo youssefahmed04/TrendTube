@@ -56,6 +56,10 @@ export const YoutubeModel = {
     return this.pageToken;
   },
 
+  async getVideoData() {
+    return await this.fetchYouTubeData();
+  },
+
   async getChannelData(channelId) {
     try {
       const response = await fetch(
@@ -65,7 +69,6 @@ export const YoutubeModel = {
       if (response.ok) {
         return {
           profilePic: data.items[0].snippet.thumbnails.high.url,
-          channelTag: data.items[0].snippet.customUrl,
           name: data.items[0].snippet.title,
         };
       } else {
@@ -77,15 +80,11 @@ export const YoutubeModel = {
     }
   },
 
-  async getVideoData() {
-    return await this.fetchYouTubeData();
-  },
-
   async getSubAndStoryData() {
     try {
       const data = await this.fetchYouTubeData();
-      return data.items.map((item) =>
-        this.getChannelData(item.snippet.channelId)
+      return data.items.map(
+        async (item) => await this.getChannelData(item.snippet.channelId)
       );
     } catch (error) {
       console.error(error);

@@ -47,23 +47,18 @@ export const YoutubeController = {
   },
 
   async loadInitialData() {
-    let videoContent = "";
-
-    // Load subscription data
-    const subscriptionData = await Promise.all(
+    const subAndStoryData = await Promise.all(
       await YoutubeModel.getSubAndStoryData()
     );
-    const subscriptionContent =
-      YoutubeView.renderSubscriptions(subscriptionData);
+
+    // Load subscription data
+    const subscriptionContent = YoutubeView.renderSubs(subAndStoryData);
     document
       .querySelector(".subscriptions")
       .insertAdjacentHTML("beforeend", subscriptionContent);
 
     // Load story data
-    const storyData = await Promise.all(
-      await YoutubeModel.getSubAndStoryData()
-    );
-    const storyContent = YoutubeView.renderStories(storyData);
+    const storyContent = YoutubeView.renderStories(subAndStoryData);
     document
       .querySelector(".story-gallery")
       .insertAdjacentHTML("beforeend", storyContent);
@@ -85,7 +80,10 @@ export const YoutubeController = {
       );
     });
 
-    this.initPagination(document.querySelector(".pagination"));
+    this.loadCurrentPageData();
+    document.querySelector(".pagination").innerHTML =
+      YoutubeView.renderPagination();
+    this.initPagination();
   },
 
   handleDarkModeToggle() {
@@ -120,10 +118,8 @@ export const YoutubeController = {
     YoutubeView.updateUIForLikeButton(likeBtn, isLike);
   },
 
-  initPagination(pagContainer) {
+  initPagination() {
     this.setupPaginationClickHandler(document.querySelector(".pagination"));
-    this.loadCurrentPageData();
-    pagContainer.innerHTML = YoutubeView.renderPagination();
   },
 
   setupPaginationClickHandler(pagContainer) {
