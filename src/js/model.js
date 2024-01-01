@@ -12,6 +12,26 @@ export const YoutubeModel = {
     this.pagination.currentPage = pageNumber;
   },
 
+  getCurrentPage() {
+    return this.pagination.currentPage;
+  },
+
+  setResultsPerPage(resultsPerPage) {
+    this.pagination.resultsPerPage = resultsPerPage;
+  },
+
+  getResultsPerPage() {
+    return this.pagination.resultsPerPage;
+  },
+
+  setTotalResults(totalResults) {
+    this.pagination.totalResults = totalResults;
+  },
+
+  getTotalResults() {
+    return this.pagination.totalResults;
+  },
+
   async getChannelData(channelId) {
     try {
       const response = await fetch(

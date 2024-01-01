@@ -173,11 +173,10 @@ export const YoutubeView = {
   },
 
   _generateMarkup() {
-    const currPage = YoutubeModel.pagination.currentPage;
+    const currPage = YoutubeModel.getCurrentPage();
 
     const numPages = Math.ceil(
-      YoutubeModel.pagination.totalResults /
-        YoutubeModel.pagination.resultsPerPage
+      YoutubeModel.getTotalResults() / YoutubeModel.getResultsPerPage()
     );
 
     const markupPrevBtn = `
