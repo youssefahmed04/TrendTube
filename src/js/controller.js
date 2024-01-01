@@ -51,7 +51,7 @@ export const YoutubeController = {
 
     // Load subscription data
     const subscriptionData = await Promise.all(
-      await YoutubeModel.getSubscriptionData()
+      await YoutubeModel.getSubAndStoryData()
     );
     const subscriptionContent =
       YoutubeView.renderSubscriptions(subscriptionData);
@@ -60,7 +60,9 @@ export const YoutubeController = {
       .insertAdjacentHTML("beforeend", subscriptionContent);
 
     // Load story data
-    const storyData = await Promise.all(await YoutubeModel.getStoryData());
+    const storyData = await Promise.all(
+      await YoutubeModel.getSubAndStoryData()
+    );
     const storyContent = YoutubeView.renderStories(storyData);
     document
       .querySelector(".story-gallery")
@@ -83,7 +85,7 @@ export const YoutubeController = {
       );
     });
 
-    this.initPagination();
+    this.initPagination(document.querySelector(".pagination"));
   },
 
   handleDarkModeToggle() {
@@ -118,23 +120,23 @@ export const YoutubeController = {
     YoutubeView.updateUIForLikeButton(likeBtn, isLike);
   },
 
-  initPagination() {
-    this.setupPaginationClickHandler();
+  initPagination(pagContainer) {
+    this.setupPaginationClickHandler(document.querySelector(".pagination"));
     this.loadCurrentPageData();
-    YoutubeView.renderPagination();
+    pagContainer.innerHTML = YoutubeView.renderPagination();
   },
 
-  setupPaginationClickHandler() {
+  setupPaginationClickHandler(pagContainer) {
     YoutubeView.addHandlerClick((pageNumber) => {
       YoutubeModel.setCurrentPage(pageNumber);
       this.loadCurrentPageData();
-      YoutubeView.renderPagination();
+      pagContainer.innerHTML = YoutubeView.renderPagination();
     });
   },
 
   async loadCurrentPageData() {
     try {
-      const pageData = await YoutubeModel.getPageData();
+      const pageData = await YoutubeModel.getVideoData();
       this.renderPageData(pageData);
     } catch (error) {
       console.error("Error loading page data:", error);
@@ -145,7 +147,7 @@ export const YoutubeController = {
     const postsContainer = document.querySelector(".posts");
     postsContainer.innerHTML = "";
 
-    for (const videoData of pageData) {
+    for (const videoData of pageData.items) {
       try {
         const channelData = await YoutubeModel.getChannelData(
           videoData.snippet.channelId

@@ -154,13 +154,20 @@ export const YoutubeView = {
     button.classList.toggle("like-on", isLiked);
   },
 
-  _parentElement: document.querySelector(".pagination"),
+  paginationContainer: document.querySelector(".pagination"),
 
   addHandlerClick(handler) {
-    this._parentElement.addEventListener("click", function (e) {
+    this.paginationContainer.addEventListener("click", async function (e) {
       const btn = e.target.closest(".btn--inline");
       if (!btn) return;
 
+      const data = await YoutubeModel.fetchYouTubeData();
+
+      if (btn.classList.contains("pagination__btn--next")) {
+        await YoutubeModel.setPageToken(data.nextPageToken);
+      } else if (btn.classList.contains("pagination__btn--prev")) {
+        await YoutubeModel.setPageToken(data.prevPageToken);
+      }
       const goToPage = +btn.dataset.goto;
 
       handler(goToPage);
@@ -168,18 +175,13 @@ export const YoutubeView = {
   },
 
   renderPagination() {
-    const markup = this._generateMarkup();
-    this._parentElement.innerHTML = markup;
-  },
-
-  _generateMarkup() {
     const currPage = YoutubeModel.getCurrentPage();
 
     const numPages = Math.ceil(
       YoutubeModel.getTotalResults() / YoutubeModel.getResultsPerPage()
     );
 
-    const markupPrevBtn = `
+    const prevBtn = `
           <button data-goto="${
             currPage - 1
           }" class="btn--inline pagination__btn--prev">
@@ -190,7 +192,7 @@ export const YoutubeView = {
               </button>
           `;
 
-    const markupFwrdBtn = `<button data-goto="${
+    const fwrdBtn = `<button data-goto="${
       currPage + 1
     }" class="btn--inline pagination__btn--next">
                   <span>Page ${currPage + 1}</span>
@@ -202,17 +204,17 @@ export const YoutubeView = {
 
     // Page 1, and there are other pages
     if (currPage === 1 && numPages > 1) {
-      return markupFwrdBtn;
+      return fwrdBtn;
     }
 
     //Last page
     if (currPage === numPages && numPages > 1) {
-      return markupPrevBtn;
+      return prevBtn;
     }
 
     //Other page
     if (currPage < numPages) {
-      return markupPrevBtn + markupFwrdBtn;
+      return prevBtn + fwrdBtn;
     }
 
     // Page 1, and there are no other pages
