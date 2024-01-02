@@ -346,24 +346,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 // View
 var YoutubeView = exports.YoutubeView = {
   renderVideo: function renderVideo(videoData, headerData, i) {
-    var videoSnippet = videoData === null || videoData === void 0 ? void 0 : videoData.snippet;
-    var videoStatistics = videoData === null || videoData === void 0 ? void 0 : videoData.statistics;
-    if (!videoSnippet || !videoStatistics) {
-      return;
-    }
-    4;
-    var title = videoSnippet.title,
-      publishedAt = videoSnippet.publishedAt,
-      tags = videoSnippet.tags;
-    var viewCount = videoStatistics.viewCount,
-      likeCount = videoStatistics.likeCount,
-      commentCount = videoStatistics.commentCount;
+    var _videoData$snippet = videoData === null || videoData === void 0 ? void 0 : videoData.snippet,
+      title = _videoData$snippet.title,
+      publishedAt = _videoData$snippet.publishedAt,
+      tags = _videoData$snippet.tags;
+    var _videoData$statistics = videoData === null || videoData === void 0 ? void 0 : videoData.statistics,
+      viewCount = _videoData$statistics.viewCount,
+      likeCount = _videoData$statistics.likeCount,
+      commentCount = _videoData$statistics.commentCount;
     var videoId = videoData.id;
     var timeAgo = this.calculateTimeAgo(publishedAt);
     var formattedTags = (tags || []).slice(0, 2).map(function (tag) {
       return "<a href=\"#\">#".concat(tag, "</a>");
     }).join(" ");
-    return "\n        <div class=\"post-container\">\n            <div class=\"post-row\">\n                <div class=\"user-profile\">\n                    <img src=\"".concat(headerData.profilePic, "\" alt=\"Profile Picture\" />\n                    <div>\n                        <p>").concat(headerData.name, "</p>\n                        <span>").concat(timeAgo, "</span>\n                    </div>\n                </div>\n                <a href=\"#\"><i class=\"fas fa-ellipsis-v\"></i></a>\n            </div>\n            <p class=\"post-text\">").concat(title, " ").concat(formattedTags, "</p>\n            <iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/").concat(videoId, "\" class=\"post-vid\" frameborder=\"0\" allowfullscreen></iframe>\n            <div class=\"post-row\">\n                <div class=\"activity-icons\">\n                    <div><i class=\"fa-solid fa-eye\"></i> ").concat(this.formatCount(viewCount), "</div>\n                    <div><button class=\"like-btn\"><i class=\"fa-solid fa-thumbs-up\" data-video-id=\"video").concat(i, "\"></i></button> ").concat(this.formatCount(likeCount), "</div>\n                    <div><i class=\"fa-solid fa-comments\"></i> ").concat(this.formatCount(commentCount), "</div>\n                </div>\n                <div class=\"post-profile-icon\">\n                    <img src=\"").concat(headerData.profilePic, "\" alt=\"Profile Picture\" />\n                    <i class=\"fas fa-caret-down\"></i>\n                </div>\n            </div>\n        </div>\n    ");
+    return "\n        <div class=\"post-container\">\n            <div class=\"post-row\">\n                <div class=\"user-profile\">\n                    <img src=\"".concat(headerData.profilePic, "\" alt=\"Profile Picture\" />\n                    <div>\n                        <p>").concat(headerData.name, "</p>\n                        <span>").concat(timeAgo, "</span>\n                    </div>\n                </div>\n                <a href=\"#\"><i class=\"fas fa-ellipsis-v\"></i></a>\n            </div>\n            <p class=\"post-text\">").concat(title, " ").concat(formattedTags, "</p>\n            <iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/").concat(videoId, "\" class=\"post-vid\" frameborder=\"0\" allowfullscreen></iframe>\n            <div class=\"post-row\">\n                <div class=\"activity-icons\">\n                    <div><i class=\"fa-solid fa-eye\"></i> ").concat(this.formatCount(viewCount), "</div>\n                    <div><button class=\"like-btn\"><i class=\"fa-solid fa-thumbs-up\" data-video-id=\"").concat(videoId, "\"></i></button> ").concat(this.formatCount(likeCount), "</div>\n                    <div><i class=\"fa-solid fa-comments\"></i> ").concat(this.formatCount(commentCount), "</div>\n                </div>\n                <div class=\"post-profile-icon\">\n                    <img src=\"").concat(headerData.profilePic, "\" alt=\"Profile Picture\" />\n                    <i class=\"fas fa-caret-down\"></i>\n                </div>\n            </div>\n        </div>\n    ");
   },
   calculateTimeAgo: function calculateTimeAgo(publishedAt) {
     var currentTime = new Date();
@@ -521,8 +517,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 // Controller
 var YoutubeController = exports.YoutubeController = {
   init: function init() {
-    this.bindEventListeners();
     this.loadInitialData();
+    this.bindEventListeners();
     this.checkDarkModeSetting();
   },
   bindEventListeners: function bindEventListeners() {
@@ -559,18 +555,21 @@ var YoutubeController = exports.YoutubeController = {
   loadInitialData: function loadInitialData() {
     var _this = this;
     return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-      var subAndStoryData, subscriptionContent, storyContent, subBtns, likeBtns;
+      var subAndStoryData, subscriptionContent, storyContent;
       return _regeneratorRuntime().wrap(function _callee$(_context) {
         while (1) switch (_context.prev = _context.next) {
           case 0:
+            _context.next = 2;
+            return _this.loadCurrentPageData();
+          case 2:
             _context.t0 = Promise;
-            _context.next = 3;
+            _context.next = 5;
             return _model.YoutubeModel.getSubAndStoryData();
-          case 3:
+          case 5:
             _context.t1 = _context.sent;
-            _context.next = 6;
+            _context.next = 8;
             return _context.t0.all.call(_context.t0, _context.t1);
-          case 6:
+          case 8:
             subAndStoryData = _context.sent;
             // Load subscription data
             subscriptionContent = _view.YoutubeView.renderSubs(subAndStoryData);
@@ -580,28 +579,36 @@ var YoutubeController = exports.YoutubeController = {
             storyContent = _view.YoutubeView.renderStories(subAndStoryData);
             document.querySelector(".story-gallery").insertAdjacentHTML("beforeend", storyContent);
 
-            // Initialize subscription buttons
-            subBtns = document.querySelectorAll(".sub-btn");
-            subBtns.forEach(function (subBtn, index) {
-              var isSubscribed = _model.YoutubeModel.getSubStatus(index) === "subscribed";
-              _view.YoutubeView.updateUIForSubButton(subBtn, isSubscribed);
-            });
-
-            // Initialize like buttons
-            likeBtns = document.querySelectorAll(".like-btn");
-            likeBtns.forEach(function (likeBtn, videoId) {
-              var isLiked = _model.YoutubeModel.getLikeStatus("video".concat(videoId)) === "like";
-              _view.YoutubeView.updateUIForLikeButton(likeBtn.querySelector(".fa-thumbs-up"), isLiked);
-            });
-            _this.loadCurrentPageData();
+            // Initialize other UI elements
             document.querySelector(".pagination").innerHTML = _view.YoutubeView.renderPagination();
             _this.initPagination();
-          case 18:
+
+            // Initialize subscription buttons
+            _this.initializeSubButtons();
+
+            // Initialize like buttons
+            _this.initializeLikeButtons();
+          case 17:
           case "end":
             return _context.stop();
         }
       }, _callee);
     }))();
+  },
+  initializeSubButtons: function initializeSubButtons() {
+    var subBtns = document.querySelectorAll(".sub-btn");
+    subBtns.forEach(function (subBtn, index) {
+      var isSubscribed = _model.YoutubeModel.getSubStatus(index) === "subscribed";
+      _view.YoutubeView.updateUIForSubButton(subBtn, isSubscribed);
+    });
+  },
+  initializeLikeButtons: function initializeLikeButtons() {
+    var likeBtns = document.querySelectorAll(".like-btn");
+    likeBtns.forEach(function (likeBtn) {
+      var videoId = likeBtn.querySelector("[data-video-id]").dataset.videoId;
+      var isLiked = _model.YoutubeModel.getLikeStatus(videoId) === "like";
+      _view.YoutubeView.updateUIForLikeButton(likeBtn.querySelector(".fa-thumbs-up"), isLiked);
+    });
   },
   handleDarkModeToggle: function handleDarkModeToggle() {
     var isDarkMode = document.body.classList.contains("dark-theme");
@@ -634,87 +641,104 @@ var YoutubeController = exports.YoutubeController = {
   },
   setupPaginationClickHandler: function setupPaginationClickHandler(pagContainer) {
     var _this2 = this;
-    _view.YoutubeView.addHandlerClick(function (pageNumber) {
-      _model.YoutubeModel.setCurrentPage(pageNumber);
-      _this2.loadCurrentPageData();
-      pagContainer.innerHTML = _view.YoutubeView.renderPagination();
-    });
+    _view.YoutubeView.addHandlerClick( /*#__PURE__*/function () {
+      var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(pageNumber) {
+        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+          while (1) switch (_context2.prev = _context2.next) {
+            case 0:
+              _model.YoutubeModel.setCurrentPage(pageNumber);
+              _context2.next = 3;
+              return _this2.loadCurrentPageData();
+            case 3:
+              pagContainer.innerHTML = _view.YoutubeView.renderPagination();
+            case 4:
+            case "end":
+              return _context2.stop();
+          }
+        }, _callee2);
+      }));
+      return function (_x) {
+        return _ref.apply(this, arguments);
+      };
+    }());
   },
   loadCurrentPageData: function loadCurrentPageData() {
     var _this3 = this;
-    return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-      var pageData;
-      return _regeneratorRuntime().wrap(function _callee2$(_context2) {
-        while (1) switch (_context2.prev = _context2.next) {
+    return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
+      var videoPageData;
+      return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+        while (1) switch (_context3.prev = _context3.next) {
           case 0:
-            _context2.prev = 0;
-            _context2.next = 3;
+            _context3.prev = 0;
+            _context3.next = 3;
             return _model.YoutubeModel.getVideoData();
           case 3:
-            pageData = _context2.sent;
-            _this3.renderPageData(pageData);
-            _context2.next = 10;
+            videoPageData = _context3.sent;
+            _context3.next = 6;
+            return _this3.renderPageData(videoPageData);
+          case 6:
+            _context3.next = 11;
             break;
-          case 7:
-            _context2.prev = 7;
-            _context2.t0 = _context2["catch"](0);
-            console.error("Error loading page data:", _context2.t0);
-          case 10:
+          case 8:
+            _context3.prev = 8;
+            _context3.t0 = _context3["catch"](0);
+            console.error("Error loading page data:", _context3.t0);
+          case 11:
           case "end":
-            return _context2.stop();
+            return _context3.stop();
         }
-      }, _callee2, null, [[0, 7]]);
+      }, _callee3, null, [[0, 8]]);
     }))();
   },
   renderPageData: function renderPageData(pageData) {
-    return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
+    return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
       var postsContainer, _iterator, _step, videoData, channelData, videoContent;
-      return _regeneratorRuntime().wrap(function _callee3$(_context3) {
-        while (1) switch (_context3.prev = _context3.next) {
+      return _regeneratorRuntime().wrap(function _callee4$(_context4) {
+        while (1) switch (_context4.prev = _context4.next) {
           case 0:
             postsContainer = document.querySelector(".posts");
             postsContainer.innerHTML = "";
             _iterator = _createForOfIteratorHelper(pageData.items);
-            _context3.prev = 3;
+            _context4.prev = 3;
             _iterator.s();
           case 5:
             if ((_step = _iterator.n()).done) {
-              _context3.next = 20;
+              _context4.next = 20;
               break;
             }
             videoData = _step.value;
-            _context3.prev = 7;
-            _context3.next = 10;
+            _context4.prev = 7;
+            _context4.next = 10;
             return _model.YoutubeModel.getChannelData(videoData.snippet.channelId);
           case 10:
-            channelData = _context3.sent;
+            channelData = _context4.sent;
             videoContent = _view.YoutubeView.renderVideo(videoData, channelData);
             postsContainer.insertAdjacentHTML("beforeend", videoContent);
-            _context3.next = 18;
+            _context4.next = 18;
             break;
           case 15:
-            _context3.prev = 15;
-            _context3.t0 = _context3["catch"](7);
-            console.error("Error rendering video data:", _context3.t0);
+            _context4.prev = 15;
+            _context4.t0 = _context4["catch"](7);
+            console.error("Error rendering video data:", _context4.t0);
           case 18:
-            _context3.next = 5;
+            _context4.next = 5;
             break;
           case 20:
-            _context3.next = 25;
+            _context4.next = 25;
             break;
           case 22:
-            _context3.prev = 22;
-            _context3.t1 = _context3["catch"](3);
-            _iterator.e(_context3.t1);
+            _context4.prev = 22;
+            _context4.t1 = _context4["catch"](3);
+            _iterator.e(_context4.t1);
           case 25:
-            _context3.prev = 25;
+            _context4.prev = 25;
             _iterator.f();
-            return _context3.finish(25);
+            return _context4.finish(25);
           case 28:
           case "end":
-            return _context3.stop();
+            return _context4.stop();
         }
-      }, _callee3, null, [[3, 22, 25, 28], [7, 15]]);
+      }, _callee4, null, [[3, 22, 25, 28], [7, 15]]);
     }))();
   }
 };
@@ -746,7 +770,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60001" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60405" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

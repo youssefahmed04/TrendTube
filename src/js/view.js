@@ -4,15 +4,8 @@ import { YoutubeModel } from "./model";
 // View
 export const YoutubeView = {
   renderVideo(videoData, headerData, i) {
-    const videoSnippet = videoData?.snippet;
-    const videoStatistics = videoData?.statistics;
-
-    if (!videoSnippet || !videoStatistics) {
-      return;
-    }
-    4;
-    const { title, publishedAt, tags } = videoSnippet;
-    const { viewCount, likeCount, commentCount } = videoStatistics;
+    const { title, publishedAt, tags } = videoData?.snippet;
+    const { viewCount, likeCount, commentCount } = videoData?.statistics;
     const videoId = videoData.id;
     const timeAgo = this.calculateTimeAgo(publishedAt);
 
@@ -40,7 +33,7 @@ export const YoutubeView = {
                     <div><i class="fa-solid fa-eye"></i> ${this.formatCount(
                       viewCount
                     )}</div>
-                    <div><button class="like-btn"><i class="fa-solid fa-thumbs-up" data-video-id="video${i}"></i></button> ${this.formatCount(
+                    <div><button class="like-btn"><i class="fa-solid fa-thumbs-up" data-video-id="${videoId}"></i></button> ${this.formatCount(
       likeCount
     )}</div>
                     <div><i class="fa-solid fa-comments"></i> ${this.formatCount(

@@ -4,8 +4,8 @@ import { YoutubeModel } from "./model";
 // Controller
 export const YoutubeController = {
   init() {
-    this.bindEventListeners();
     this.loadInitialData();
+    this.bindEventListeners();
     this.checkDarkModeSetting();
   },
 
@@ -47,6 +47,10 @@ export const YoutubeController = {
   },
 
   async loadInitialData() {
+    // Load video data and wait for it to complete
+    await this.loadCurrentPageData();
+
+    // Once video data is loaded, load other data in parallel
     const subAndStoryData = await Promise.all(
       await YoutubeModel.getSubAndStoryData()
     );
@@ -63,27 +67,36 @@ export const YoutubeController = {
       .querySelector(".story-gallery")
       .insertAdjacentHTML("beforeend", storyContent);
 
+    // Initialize other UI elements
+    document.querySelector(".pagination").innerHTML =
+      YoutubeView.renderPagination();
+    this.initPagination();
+
     // Initialize subscription buttons
+    this.initializeSubButtons();
+
+    // Initialize like buttons
+    this.initializeLikeButtons();
+  },
+
+  initializeSubButtons() {
     const subBtns = document.querySelectorAll(".sub-btn");
     subBtns.forEach((subBtn, index) => {
       const isSubscribed = YoutubeModel.getSubStatus(index) === "subscribed";
       YoutubeView.updateUIForSubButton(subBtn, isSubscribed);
     });
+  },
 
-    // Initialize like buttons
+  initializeLikeButtons() {
     const likeBtns = document.querySelectorAll(".like-btn");
-    likeBtns.forEach((likeBtn, videoId) => {
-      const isLiked = YoutubeModel.getLikeStatus(`video${videoId}`) === "like";
+    likeBtns.forEach((likeBtn) => {
+      const videoId = likeBtn.querySelector("[data-video-id]").dataset.videoId;
+      const isLiked = YoutubeModel.getLikeStatus(videoId) === "like";
       YoutubeView.updateUIForLikeButton(
         likeBtn.querySelector(".fa-thumbs-up"),
         isLiked
       );
     });
-
-    this.loadCurrentPageData();
-    document.querySelector(".pagination").innerHTML =
-      YoutubeView.renderPagination();
-    this.initPagination();
   },
 
   handleDarkModeToggle() {
@@ -123,17 +136,17 @@ export const YoutubeController = {
   },
 
   setupPaginationClickHandler(pagContainer) {
-    YoutubeView.addHandlerClick((pageNumber) => {
+    YoutubeView.addHandlerClick(async (pageNumber) => {
       YoutubeModel.setCurrentPage(pageNumber);
-      this.loadCurrentPageData();
+      await this.loadCurrentPageData();
       pagContainer.innerHTML = YoutubeView.renderPagination();
     });
   },
 
   async loadCurrentPageData() {
     try {
-      const pageData = await YoutubeModel.getVideoData();
-      this.renderPageData(pageData);
+      const videoPageData = await YoutubeModel.getVideoData();
+      await this.renderPageData(videoPageData);
     } catch (error) {
       console.error("Error loading page data:", error);
     }
