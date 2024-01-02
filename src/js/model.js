@@ -70,6 +70,8 @@ export const YoutubeModel = {
         return {
           profilePic: data.items[0].snippet.thumbnails.high.url,
           name: data.items[0].snippet.title,
+          channelTag: data.items[0].snippet.customUrl,
+          channelId: channelId,
         };
       } else {
         throw new Error(`Error fetching channel data: ${data.error.message}`);
@@ -92,16 +94,16 @@ export const YoutubeModel = {
     }
   },
 
-  toggleSubStatus(index) {
-    const currentStatus = this.getSubStatus(index);
+  toggleSubStatus(channelId) {
+    const currentStatus = this.getSubStatus(channelId);
     const newStatus =
       currentStatus === "subscribed" ? "unsubscribed" : "subscribed";
-    localStorage.setItem(`subStatus_${index}`, newStatus);
+    localStorage.setItem(`subStatus_${channelId}`, newStatus);
     return newStatus;
   },
 
-  getSubStatus(index) {
-    return localStorage.getItem(`subStatus_${index}`) || "unsubscribed";
+  getSubStatus(channelId) {
+    return localStorage.getItem(`subStatus_${channelId}`) || "unsubscribed";
   },
 
   toggleLikeStatus(videoId) {

@@ -102,7 +102,7 @@ export const YoutubeView = {
             </div>
             <div class="right-event">
               <a href="https://www.youtube.com/${data.channelTag}">${data.name}</a>
-              <button class="sub-btn"> Subscribe</button>
+              <button class="sub-btn" channel-id="${data.channelId}"> Subscribe</button>
             </div>
           </div>
         `

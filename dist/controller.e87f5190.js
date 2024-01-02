@@ -248,7 +248,9 @@ var YoutubeModel = exports.YoutubeModel = {
             }
             return _context4.abrupt("return", {
               profilePic: data.items[0].snippet.thumbnails.high.url,
-              name: data.items[0].snippet.title
+              name: data.items[0].snippet.title,
+              channelTag: data.items[0].snippet.customUrl,
+              channelId: channelId
             });
           case 11:
             throw new Error("Error fetching channel data: ".concat(data.error.message));
@@ -310,14 +312,14 @@ var YoutubeModel = exports.YoutubeModel = {
       }, _callee6, null, [[0, 7]]);
     }))();
   },
-  toggleSubStatus: function toggleSubStatus(index) {
-    var currentStatus = this.getSubStatus(index);
+  toggleSubStatus: function toggleSubStatus(channelId) {
+    var currentStatus = this.getSubStatus(channelId);
     var newStatus = currentStatus === "subscribed" ? "unsubscribed" : "subscribed";
-    localStorage.setItem("subStatus_".concat(index), newStatus);
+    localStorage.setItem("subStatus_".concat(channelId), newStatus);
     return newStatus;
   },
-  getSubStatus: function getSubStatus(index) {
-    return localStorage.getItem("subStatus_".concat(index)) || "unsubscribed";
+  getSubStatus: function getSubStatus(channelId) {
+    return localStorage.getItem("subStatus_".concat(channelId)) || "unsubscribed";
   },
   toggleLikeStatus: function toggleLikeStatus(videoId) {
     var currentStatus = this.getLikeStatus(videoId);
@@ -399,7 +401,7 @@ var YoutubeView = exports.YoutubeView = {
   },
   renderSubs: function renderSubs(subData) {
     return subData.map(function (data) {
-      return "\n          <div class=\"subcription\">\n            <div class=\"left-event\">\n              <img\n                src=\"".concat(data.profilePic, "\"\n              />\n            </div>\n            <div class=\"right-event\">\n              <a href=\"https://www.youtube.com/").concat(data.channelTag, "\">").concat(data.name, "</a>\n              <button class=\"sub-btn\"> Subscribe</button>\n            </div>\n          </div>\n        ");
+      return "\n          <div class=\"subcription\">\n            <div class=\"left-event\">\n              <img\n                src=\"".concat(data.profilePic, "\"\n              />\n            </div>\n            <div class=\"right-event\">\n              <a href=\"https://www.youtube.com/").concat(data.channelTag, "\">").concat(data.name, "</a>\n              <button class=\"sub-btn\" channel-id=\"").concat(data.channelId, "\"> Subscribe</button>\n            </div>\n          </div>\n        ");
     }).join("");
   },
   renderStories: function renderStories(storyData) {
@@ -532,9 +534,8 @@ var YoutubeController = exports.YoutubeController = {
     function handleSubClick(event) {
       var subBtn = event.target.closest(".sub-btn");
       if (subBtn) {
-        var allSubBtns = subContainer.querySelectorAll(".sub-btn");
-        var index = Array.from(allSubBtns).indexOf(subBtn);
-        this.toggleSub(subBtn, index);
+        var channelId = subBtn.getAttribute("channel-id");
+        this.toggleSub(subBtn, channelId);
       }
     }
     if (subContainer) {
@@ -597,8 +598,9 @@ var YoutubeController = exports.YoutubeController = {
   },
   initializeSubButtons: function initializeSubButtons() {
     var subBtns = document.querySelectorAll(".sub-btn");
-    subBtns.forEach(function (subBtn, index) {
-      var isSubscribed = _model.YoutubeModel.getSubStatus(index) === "subscribed";
+    subBtns.forEach(function (subBtn) {
+      var channelId = subBtn.getAttribute("channel-id");
+      var isSubscribed = _model.YoutubeModel.getSubStatus(channelId) === "subscribed";
       _view.YoutubeView.updateUIForSubButton(subBtn, isSubscribed);
     });
   },
@@ -626,8 +628,8 @@ var YoutubeController = exports.YoutubeController = {
   goToProfile: function goToProfile() {
     window.location = "profile.html";
   },
-  toggleSub: function toggleSub(subBtn, index) {
-    var newStatus = _model.YoutubeModel.toggleSubStatus(index);
+  toggleSub: function toggleSub(subBtn, channelId) {
+    var newStatus = _model.YoutubeModel.toggleSubStatus(channelId);
     var isSubscribed = newStatus === "subscribed";
     _view.YoutubeView.updateUIForSubButton(subBtn, isSubscribed);
   },
@@ -742,6 +744,9 @@ var YoutubeController = exports.YoutubeController = {
     }))();
   }
 };
+
+// localStorage.clear();
+
 document.addEventListener("DOMContentLoaded", function () {
   return YoutubeController.init();
 });
@@ -770,7 +775,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60405" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65443" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

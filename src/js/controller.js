@@ -23,9 +23,8 @@ export const YoutubeController = {
     function handleSubClick(event) {
       const subBtn = event.target.closest(".sub-btn");
       if (subBtn) {
-        const allSubBtns = subContainer.querySelectorAll(".sub-btn");
-        const index = Array.from(allSubBtns).indexOf(subBtn);
-        this.toggleSub(subBtn, index);
+        const channelId = subBtn.getAttribute("channel-id");
+        this.toggleSub(subBtn, channelId);
       }
     }
     if (subContainer) {
@@ -81,8 +80,10 @@ export const YoutubeController = {
 
   initializeSubButtons() {
     const subBtns = document.querySelectorAll(".sub-btn");
-    subBtns.forEach((subBtn, index) => {
-      const isSubscribed = YoutubeModel.getSubStatus(index) === "subscribed";
+    subBtns.forEach((subBtn) => {
+      const channelId = subBtn.getAttribute("channel-id");
+      const isSubscribed =
+        YoutubeModel.getSubStatus(channelId) === "subscribed";
       YoutubeView.updateUIForSubButton(subBtn, isSubscribed);
     });
   },
@@ -119,8 +120,8 @@ export const YoutubeController = {
     window.location = "profile.html";
   },
 
-  toggleSub(subBtn, index) {
-    const newStatus = YoutubeModel.toggleSubStatus(index);
+  toggleSub(subBtn, channelId) {
+    const newStatus = YoutubeModel.toggleSubStatus(channelId);
     const isSubscribed = newStatus === "subscribed";
     YoutubeView.updateUIForSubButton(subBtn, isSubscribed);
   },
@@ -169,5 +170,7 @@ export const YoutubeController = {
     }
   },
 };
+
+// localStorage.clear();
 
 document.addEventListener("DOMContentLoaded", () => YoutubeController.init());
