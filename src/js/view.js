@@ -1,3 +1,6 @@
+"use strict";
+
+import "regenerator-runtime/runtime";
 import icons from "../assets/imgs/icons.svg";
 import { YoutubeModel } from "./model";
 
@@ -101,7 +104,7 @@ export const YoutubeView = {
               />
             </div>
             <div class="right-event">
-              <a href="https://www.youtube.com/${data.channelTag}">${data.name}</a>
+              <a href="profile.html?id=${data.channelId}" target="_self">${data.name}</a>
               <button class="sub-btn" channel-id="${data.channelId}"> Subscribe</button>
             </div>
           </div>
@@ -129,6 +132,44 @@ export const YoutubeView = {
         }
       })
       .join("");
+  },
+
+  renderProfileHeader(profileData) {
+    console.log(profileData);
+    return `
+    <img
+        src="https://t3.ftcdn.net/jpg/02/54/66/08/360_F_254660811_nEM2z4ejjcNnCGJvLvlYK5xx5a4gzyRc.jpg"
+        class="cover-img"
+      />
+      <div class="profile-details">
+        <div class="profile-details-left">
+          <div class="profile-details-row">
+            <img
+              src="src/assets/imgs/member-9.png"
+              class="profile-details-images"
+            />
+            <div>
+              <h3>Youssef Ahmed</h3>
+              <p>364 friends - 13 mutual</p>
+              <img src="src/assets/imgs/member-5.png" />
+              <img src="src/assets/imgs/member-5.png" />
+              <img src="src/assets/imgs/member-5.png" />
+              <img src="src/assets/imgs/member-5.png" />
+            </div>
+          </div>
+        </div>
+        <div class="profile-details-right">
+          <button type="button">
+            <i class="fa-solid fa-user-plus"></i>Friend
+          </button>
+          <button type="button">
+            <i class="fa-solid fa-comments"></i>Message
+          </button>
+          <br />
+          <a href=""><img src="src/assets/imgs/more.png" /></a>
+        </div>
+      </div>
+      `;
   },
 
   updateUIForDarkMode(isDarkMode) {

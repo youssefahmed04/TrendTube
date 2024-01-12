@@ -1,3 +1,7 @@
+"use strict";
+
+import "regenerator-runtime/runtime";
+
 // Model
 const API_KEY = "AIzaSyDJvk4A_K5SVv78Rl7Qaun_qFmU0_Xjo9Q";
 
@@ -70,7 +74,7 @@ export const YoutubeModel = {
         return {
           profilePic: data.items[0].snippet.thumbnails.high.url,
           name: data.items[0].snippet.title,
-          channelTag: data.items[0].snippet.customUrl,
+          tag: data.items[0].snippet.customUrl,
           channelId: channelId,
         };
       } else {
